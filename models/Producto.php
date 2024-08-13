@@ -5,18 +5,18 @@ namespace Model;
 class Producto extends ActiveRecord
 {
     protected static $tabla = 'productos';
-    protected static $idTabla = 'id';
-    protected static $columnasDB = ['nombre', 'precio'];
+    protected static $idTabla = 'pro_codigo';
+    protected static $columnasDB = ['pro_nombre', 'pro_precio'];
 
     public $id;
-    public $nombre;
-    public $precio;
+    public $pro_nombre;
+    public $pro_precio;
 
 
     public function __construct($args = [])
     {
         $this->id = $args['id'] ?? null;
-        $this->nombre = $args['nombre'] ?? '';
-        $this->precio = $args['precio'] ?? 0;
+        $this->pro_nombre = $args['pro_nombre'] ?? '';
+        $this->pro_precio = $args['pro_precio'] ?? 0;
     }
 }

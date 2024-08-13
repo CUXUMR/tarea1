@@ -18,7 +18,7 @@ class ProductoController
 
     public static function guardarAPI()
     {
-        $_POST['nombre'] = htmlspecialchars($_POST['nombre']);
+        $_POST['pro_nombre'] = htmlspecialchars($_POST['pro_nombre']);
         try {
             $producto = new Producto($_POST);
             $resultado = $producto->guardar();
