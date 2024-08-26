@@ -3,8 +3,8 @@ import { Toast, validarFormulario } from "../funciones";
 import Swal from "sweetalert2";
 
 
-const formulario = document.getElementById('formProducto')
-const tabla = document.getElementById('tablaProducto')
+const formulario = document.getElementById('formCliente')
+const tabla = document.getElementById('tablaCliente')
 const btnGuardar = document.getElementById('btnGuardar')
 const btnModificar = document.getElementById('btnModificar')
 const btnCancelar = document.getElementById('btnCancelar')
@@ -17,7 +17,7 @@ btnCancelar.disabled = true
 const guardar = async (e) => {
     e.preventDefault()
     
-    if (!validarFormulario(formulario, ['pro_id'])) {
+    if (!validarFormulario(formulario, ['cli_id'])) {
         Swal.fire({
             title: "Campos vacios",
             text: "Debe llenar todos los campos",
@@ -28,7 +28,7 @@ const guardar = async (e) => {
 
     try {
         const body = new FormData(formulario)
-        const url = "/tarea1/API/producto/guardar"
+        const url = "/tarea1/API/cliente/guardar"
         const config = {
             method: 'POST',
             body
@@ -65,7 +65,7 @@ const guardar = async (e) => {
 
 const buscar = async () => {
     try {
-        const url = "/tarea1/API/producto/buscar"
+        const url = "/tarea1/API/cliente/buscar"
         const config = {
             method: 'GET',
         }
@@ -78,19 +78,21 @@ const buscar = async () => {
         // console.log(datos);
         if (codigo == 1) {
             let counter = 1;
-            datos.forEach(producto => {
+            datos.forEach(cliente => {
                 const tr = document.createElement('tr');
                 const td1 = document.createElement('td');
                 const td2 = document.createElement('td');
                 const td3 = document.createElement('td');
                 const td4 = document.createElement('td');
                 const td5 = document.createElement('td');
+                const td6 = document.createElement('td');
              
                 const buttonModificar = document.createElement('button');
                 const buttonEliminar = document.createElement('button');
                 td1.innerText = counter
-                td2.innerText = producto.pro_nombre
-                td3.innerText = producto.pro_precio
+                td2.innerText = cliente.cli_nombre
+                td3.innerText = cliente.cli_telefono
+                td4.innerText = cliente.cli_sexo
         
 
                 buttonModificar.classList.add('btn', 'btn-warning')
@@ -98,11 +100,11 @@ const buscar = async () => {
                 buttonModificar.innerText = 'Modificar'
                 buttonEliminar.innerText = 'Eliminar'
 
-                buttonModificar.addEventListener('click', () => traerDatos(producto))
-                buttonEliminar.addEventListener('click', () => eliminar(producto))
+                buttonModificar.addEventListener('click', () => traerDatos(cliente))
+                buttonEliminar.addEventListener('click', () => eliminar(cliente))
 
-                td4.appendChild(buttonModificar)
-                td5.appendChild(buttonEliminar)
+                td5.appendChild(buttonModificar)
+                td6.appendChild(buttonEliminar)
 
                 counter++
 
@@ -111,6 +113,7 @@ const buscar = async () => {
                 tr.appendChild(td3)
                 tr.appendChild(td4)
                 tr.appendChild(td5)
+                tr.appendChild(td6)
     
                 fragment.appendChild(tr)
             })
@@ -118,7 +121,7 @@ const buscar = async () => {
             const tr = document.createElement('tr');
             const td = document.createElement('td');
             td.innerText = "No hay productos"
-            td.colSpan = 5
+            td.colSpan = 6
 
             tr.appendChild(td)
             fragment.appendChild(tr)
@@ -133,11 +136,12 @@ const buscar = async () => {
 
 buscar();
 
-const traerDatos = (producto) => {
-    console.log(producto);
-    formulario.pro_id.value = producto.pro_id
-    formulario.pro_nombre.value = producto.pro_nombre
-    formulario.pro_precio.value = producto.pro_precio
+const traerDatos = (cliente) => {
+    console.log(cliente);
+    formulario.cli_id.value = cliente.cli_id
+    formulario.cli_nombre.value = cliente.cli_nombre
+    formulario.cli_telefono.value = cliente.cli_telefono
+    formulario.cli_sexo.value = cliente.cli_sexo
   
     tabla.parentElement.parentElement.style.display = 'none'
 
@@ -174,7 +178,7 @@ const modificar = async (e) => {
 
     try {
         const body = new FormData(formulario)
-        const url = "/tarea1/API/producto/modificar"
+        const url = "/tarea1/API/cliente/modificar"
         const config = {
             method: 'POST',
             body
@@ -205,7 +209,7 @@ const modificar = async (e) => {
     }
 }
 
-const eliminar = async (producto) => {
+const eliminar = async (cliente) => {
 
     let confirmacion = await Swal.fire({
         icon: 'question',
@@ -221,11 +225,11 @@ const eliminar = async (producto) => {
     console.log(confirmacion);
     if (confirmacion.isConfirmed) {
         try {
-            console.log(producto)
+            console.log(cliente)
             const body = new FormData()
-            body.append('id', producto.pro_id)
+            body.append('id', cliente.cli_id)
 
-            const url = "/tarea1/API/producto/eliminar"
+            const url = "/tarea1/API/cliente/eliminar"
             const config = {
                 method: 'POST',
                 body
